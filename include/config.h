@@ -15,6 +15,7 @@
 #define UART_BAUDRATE       9600        // 串口波特率
 
 // 功能模块开关
+#define LED_FLOW_LIGHT  1
 #define USE_DIGITRON        1           // 数码管模块
 #define USE_TEMPERATURE_SENSOR 1        // 温度传感器模块
 

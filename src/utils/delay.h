@@ -10,5 +10,6 @@
  * @param ms 延时时间（0-65535毫秒）
  */
 void delay_ms(unsigned int ms);
-
+void delay_us(unsigned int us);
+void delay_x50us(unsigned int count);
 #endif //DELAY_H
