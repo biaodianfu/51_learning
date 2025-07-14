@@ -3,85 +3,72 @@
 //
 #include "led_effect_show.h"
 #include "utils/delay.h"
-#include "drivers/display/led_8bit.h"
-#include "configs/led_8bit_config.h"
+#include "../../drivers/display/led_8bit.h"
 
-// LED效果演示序列
-static const LedEffect effect_sequence[] = {
-#if EFFECT_ALL_OFF
-        LED_EFFECT_ALL_OFF,
-#endif
-
-#if EFFECT_ALL_ON
-        LED_EFFECT_ALL_ON,
-#endif
-
-#if EFFECT_FLOW_LEFT
-        LED_EFFECT_FLOW_LEFT,
-#endif
-
-#if EFFECT_FLOW_RIGHT
-        LED_EFFECT_FLOW_RIGHT,
-#endif
-
-#if EFFECT_BLINK_ALL
-        LED_EFFECT_BLINK_ALL,
-#endif
-
-#if EFFECT_ALTERNATE
-        LED_EFFECT_ALTERNATE,
-#endif
-
-#if EFFECT_BREATH
-        LED_EFFECT_BREATH,
-#endif
-
-#if EFFECT_WAVE
-        LED_EFFECT_WAVE,
-#endif
-};
-
-// 当前效果索引
-static unsigned char current_effect_index = 0;
-static unsigned int effect_start_time = 0;
-static unsigned int system_time = 0;
-
-// 初始化LED效果
-void led_effect_init(void) {
-    if (sizeof(effect_sequence) > 0) {
-        led_set_effect(effect_sequence[0]);
-        effect_start_time = 0;
-    }
-}
-
-// 运行LED效果（在主循环中调用）
-void led_effect_run(unsigned int current_time) {
-    // 设置开始时间
-    if (effect_start_time == 0) {
-        effect_start_time = current_time;
-    }
-
-    // 每3秒切换一次效果
-    if (current_time - effect_start_time > 3000) {
-        effect_start_time = current_time;
-
-        // 切换到下一个效果
-        current_effect_index = (current_effect_index + 1) % (sizeof(effect_sequence) / sizeof(LedEffect));
-        led_set_effect(effect_sequence[current_effect_index]);
-    }
-
-    // 运行当前效果
-    led_run_effect();
-}
-
-// 新增运行函数 - 包含完整的循环逻辑
+// LED效果展示模块
 void led_effect_module_run(void) {
-    led_init();
-    led_effect_init();
-    while (1) {
-        system_time++;
-        led_effect_run(system_time);
-        delay_ms(1);
-    }
-}
+    // 关闭所有LED
+    led_all_off();
+    delay_ms(1000); // 等待1秒
 
+    // 全部点亮
+    led_all_on();
+    delay_ms(1000); // 等待1秒
+
+    for (unsigned char i = 0; i < 3; i++) {
+        led_flow_left();
+    }
+    delay_ms(1000); // 等待1秒
+
+    for (unsigned char i = 0; i < 3; i++) {
+        led_flow_right();
+    }
+    delay_ms(1000); // 等待1秒
+
+    // 流水灯效果
+    for (unsigned char i = 0; i < 3; i++) {
+        led_flow();
+    }
+    delay_ms(1000); // 等待1秒
+
+    // 流水灯暗模式
+    for (unsigned char i = 0; i < 3; i++) {
+        led_flow_reverse();
+    }
+    delay_ms(1000); // 等待1秒
+
+    // 闪烁效果
+    for (unsigned char i = 0; i < 3; i++) {
+        led_blink_all();
+    }
+    delay_ms(1000); // 等待1秒
+
+    // 交替闪烁效果
+    for( unsigned char i = 0; i < 3; i++) {
+        led_blink_alternate();
+    }
+    delay_ms(1000); // 等待1秒
+
+    // 呼吸灯效果
+    for (unsigned char i = 0; i < 3; i++) {
+        led_breath();
+    }
+    delay_ms(1000); // 等待1秒
+
+    // 波浪效果
+    for (unsigned char i = 0; i < 3; i++) {
+        led_wave();
+    }
+    delay_ms(1000); // 等待1秒
+    // 波浪效果2
+    for (unsigned char i = 0; i < 3; i++) {
+        led_wave_reverse();
+    }
+    delay_ms(1000); // 等待1秒
+
+    // 潮汐效果
+    for (unsigned char i = 0; i < 3; i++) {
+        led_tide();
+    }
+    delay_ms(1000); // 等待1秒
+}

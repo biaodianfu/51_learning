@@ -16,12 +16,9 @@
 //#endif // LED_MODULE_ENABLE
 //    return 0;
 //}
-#include "drivers/display/led_8bit.h"
-#include "utils/delay.h"
+#include "app/01_led_blink/led_effect_show.h"
 int main(void) {
-    led_init();
     while(1) {
-        led_set_effect(LED_EFFECT_TIDE);
-        led_run_effect();
+        led_effect_module_run();
     }
  }
