@@ -17,8 +17,9 @@
 //    return 0;
 //}
 #include "app/01_led_blink/led_effect_show.h"
+
 int main(void) {
-    while(1) {
+    while (1) {
         led_effect_module_run();
     }
- }
+}

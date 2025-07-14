@@ -5,70 +5,38 @@
 #include "utils/delay.h"
 #include "../../drivers/display/led_8bit.h"
 
+// 效果执行辅助函数
+static void run_effect(void (*effect_func)(void), unsigned char times) {
+    for (unsigned char i = 0; i < times; i++) {
+        effect_func();
+    }
+    delay_ms(1000);
+}
+
 // LED效果展示模块
 void led_effect_module_run(void) {
-    // 关闭所有LED
-    led_all_off();
-    delay_ms(1000); // 等待1秒
+    // 定义效果列表：{效果函数, 执行次数}
+    struct {
+        void (*func)(void);
+        unsigned char times;
+    } effects[] = {
+        {led_all_off, 1},          // 关闭所有LED
+        {led_all_on, 1},            // 全部点亮
+        {led_flow_left, 3},         // 左流动
+        {led_flow_right, 3},        // 右流动
+        {led_flow, 3},              // 流水灯
+        {led_flow_reverse, 3},      // 反向流水灯
+        {led_blink_all, 3},         // 全闪烁
+        {led_blink_alternate, 3},   // 交替闪烁
+        {led_breath, 3},            // 呼吸灯
+        {led_wave, 3},              // 波浪效果
+        {led_wave_reverse, 3},      // 反向波浪
+        {led_tide, 3}               // 潮汐效果
+    };
 
-    // 全部点亮
-    led_all_on();
-    delay_ms(1000); // 等待1秒
-
-    for (unsigned char i = 0; i < 3; i++) {
-        led_flow_left();
+    // 按顺序执行所有效果
+    for (unsigned int i = 0; i < sizeof(effects)/sizeof(effects[0]); i++) {
+        run_effect(effects[i].func, effects[i].times);
     }
-    delay_ms(1000); // 等待1秒
-
-    for (unsigned char i = 0; i < 3; i++) {
-        led_flow_right();
-    }
-    delay_ms(1000); // 等待1秒
-
-    // 流水灯效果
-    for (unsigned char i = 0; i < 3; i++) {
-        led_flow();
-    }
-    delay_ms(1000); // 等待1秒
-
-    // 流水灯暗模式
-    for (unsigned char i = 0; i < 3; i++) {
-        led_flow_reverse();
-    }
-    delay_ms(1000); // 等待1秒
-
-    // 闪烁效果
-    for (unsigned char i = 0; i < 3; i++) {
-        led_blink_all();
-    }
-    delay_ms(1000); // 等待1秒
-
-    // 交替闪烁效果
-    for( unsigned char i = 0; i < 3; i++) {
-        led_blink_alternate();
-    }
-    delay_ms(1000); // 等待1秒
-
-    // 呼吸灯效果
-    for (unsigned char i = 0; i < 3; i++) {
-        led_breath();
-    }
-    delay_ms(1000); // 等待1秒
-
-    // 波浪效果
-    for (unsigned char i = 0; i < 3; i++) {
-        led_wave();
-    }
-    delay_ms(1000); // 等待1秒
-    // 波浪效果2
-    for (unsigned char i = 0; i < 3; i++) {
-        led_wave_reverse();
-    }
-    delay_ms(1000); // 等待1秒
-
-    // 潮汐效果
-    for (unsigned char i = 0; i < 3; i++) {
-        led_tide();
-    }
-    delay_ms(1000); // 等待1秒
 }
+
