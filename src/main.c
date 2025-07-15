@@ -1,25 +1,29 @@
-//#include "app/01_led_blink/led_effect_show.h"
-//
-//// LED模块开关
-//#define LED_EFFECT_SHOW_ENABLE 1
-//
-//
-//int main(void) {
-//    // 只需一行即可初始化并运行模块（如果启用）
-//#if LED_EFFECT_SHOW_ENABLE
-//    led_effect_module_run();
-//#else
-//    // 如果未启用，可以添加其他初始化和逻辑
-//    while(1) {
-//        ;  // 空操作
-//    }
-//#endif // LED_MODULE_ENABLE
-//    return 0;
-//}
-#include "app/01_led_blink/led_effect_show.h"
+
+#include "drivers/display/led_1bit_5050.h"
+#include "utils/delay.h"
 
 int main(void) {
+
     while (1) {
-        led_effect_module_run();
+        // 名称颜色设置
+        set_color("blue");
+        delay_ms(1000); // 等待1秒
+        set_color_bright("green", 128); // 50%亮度绿色
+        delay_ms(1000); // 等待1秒
+
+// 十六进制颜色设置
+        set_color_hex("FF0000");       // 红色
+        delay_ms(1000); // 等待1秒
+        set_color_hex("#00FF00");      // 绿色
+        delay_ms(1000); // 等待1秒
+        set_color_hex_bright("0000FF", 64); // 25%亮度蓝色
+        delay_ms(1000); // 等待1秒
+
+// 简写格式
+        set_color_hex("#F00");         // 红色
+        delay_ms(1000); // 等待1秒
+        set_color_hex_bright("#0F0", 192); // 75%亮度绿色
+        delay_ms(1000); // 等待1秒
     }
+
 }
