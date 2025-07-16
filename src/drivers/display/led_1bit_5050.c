@@ -60,6 +60,22 @@ void set_color_rgb(unsigned char r, unsigned char g, unsigned char b) {
     }
 }
 
+void set_color_rgb_bright(unsigned char r, unsigned char g, unsigned char b,
+                            unsigned char brightness) {
+    if (brightness == 0) {
+        // 全黑
+        LED_R = 1;
+        LED_G = 1;
+        LED_B = 1;
+    } else {
+        // 避免使用浮点运算，使用整数缩放
+        r = ((unsigned int)r * brightness) / 255;
+        g = ((unsigned int)g * brightness) / 255;
+        b = ((unsigned int)b * brightness) / 255;
+        set_color_rgb(r, g, b);
+    }
+}
+
 // 名称颜色设置函数
 void set_color(const char* color_name) {
     unsigned char r, g, b;
@@ -175,77 +191,126 @@ void set_color_hex_bright(const char *hex_color, unsigned char brightness) {
     }
 }
 
+// HSV转RGB的转换函数（H:0-359°, S:0-255, V:0-255）
+void hsv2rgb(unsigned int h, unsigned char s, unsigned char v,
+             unsigned char *r, unsigned char *g, unsigned char *b) {
+    // 使用位域和计算优化减少变量
+    unsigned char region = (h % 360) / 60;
+    unsigned char rem = (h % 60) * 4;
+
+    if (s == 0) {
+        *r = *g = *b = v;
+        return;
+    }
+
+    // 合并计算减少中间变量
+    unsigned char p = (v * (255 - s)) / 255;
+    unsigned char temp;
+
+    // 使用位运算替代 switch 结构
+    unsigned char case_id = region % 6;
+
+    // case 0: *r = v; *g = t; *b = p;
+    if (case_id == 0) {
+        temp = (s * (256 - rem)) / 256;
+        *r = v;
+        *g = (v * (255 - temp)) / 255;
+        *b = p;
+    }
+        // case 1: *r = q; *g = v; *b = p;
+    else if (case_id == 1) {
+        temp = (s * rem) / 256;
+        *r = (v * (255 - temp)) / 255;
+        *g = v;
+        *b = p;
+    }
+        // case 2: *r = p; *g = v; *b = t;
+    else if (case_id == 2) {
+        temp = (s * (256 - rem)) / 256;
+        *r = p;
+        *g = v;
+        *b = (v * (255 - temp)) / 255;
+    }
+        // case 3: *r = p; *g = q; *b = v;
+    else if (case_id == 3) {
+        temp = (s * rem) / 256;
+        *r = p;
+        *g = (v * (255 - temp)) / 255;
+        *b = v;
+    }
+        // case 4: *r = t; *g = p; *b = v;
+    else if (case_id == 4) {
+        temp = (s * (256 - rem)) / 256;
+        *r = (v * (255 - temp)) / 255;
+        *g = p;
+        *b = v;
+    }
+        // case 5: *r = v; *g = p; *b = q;
+    else {
+        temp = (s * rem) / 256;
+        *r = v;
+        *g = p;
+        *b = (v * (255 - temp)) / 255;
+    }
+}
 
 
 
+// HSV格式的PWM输出函数
+void set_color_hsv(unsigned int h, unsigned char s, unsigned char v) {
+    unsigned char r, g, b;
+
+    // 第一步：将HSV参数转换为RGB值
+    hsv2rgb(h, s, v, &r, &g, &b);
+    set_color_rgb(r, g, b);
+}
+
+void breathing_effect(unsigned char r, unsigned char g, unsigned char b) {
+    unsigned char i;
+    unsigned char tr, tg, tb;  // 使用单独变量代替结构体
+
+    // 渐亮
+    for (i = 0; i < 255; i++) {
+        tr = (r * i) / 255;
+        tg = (g * i) / 255;
+        tb = (b * i) / 255;
+        set_color_rgb(tr, tg, tb);
+        delay_ms(10);
+    }
+
+    // 渐暗
+    for (i = 255; i > 0; i--) {
+        tr = (r * i) / 255;
+        tg = (g * i) / 255;
+        tb = (b * i) / 255;
+        set_color_rgb(tr, tg, tb);
+        delay_ms(10);
+    }
+}
+
+void breathing_effect_color(const char* color_name) {
+    unsigned char r, g, b;
+
+    if (find_color(color_name, &r, &g, &b)) {
+        breathing_effect(r, g, b);
+    } else {
+        // 未找到颜色时使用白色
+        breathing_effect(255, 255, 255);
+    }
+}
 
 
 
+void rainbow_effect(void) {
+    unsigned char r, g, b;
+    unsigned char i;
+    unsigned int h;
 
-
-
-
-
-
-
-//// 呼吸灯效果
-//void breathing_effect(Color color) {
-//    unsigned char i;
-//    Color temp;
-//
-//    for(i = 0; i < 255; i++) {
-//        temp.r = (color.r * i) / 255;
-//        temp.g = (color.g * i) / 255;
-//        temp.b = (color.b * i) / 255;
-//        set_color(temp);
-//        delay_ms(10);
-//    }
-//
-//    for(i = 255; i > 0; i--) {
-//        temp.r = (color.r * i) / 255;
-//        temp.g = (color.g * i) / 255;
-//        temp.b = (color.b * i) / 255;
-//        set_color(temp);
-//        delay_ms(10);
-//    }
-//}
-//
-//// 彩虹效果
-//void rainbow_effect(void) {
-//    Color colors[] = {
-//            {255, 0, 0},    // 红
-//            {255, 127, 0},  // 橙
-//            {255, 255, 0},  // 黄
-//            {0, 255, 0},    // 绿
-//            {0, 0, 255},    // 蓝
-//            {139, 0, 255}   // 紫
-//    };
-//
-//    unsigned char i;
-//    for(i = 0; i < 6; i++) {
-//        set_color(colors[i]);
-//        delay_ms(500);
-//    }
-//}
-//
-//// 随机颜色效果
-//void random_color(void) {
-//    Color random;
-//    random.r = TH0;  // 使用定时器的值作为随机数源
-//    random.g = TL0;
-//    random.b = TH1;
-//    set_color(random);
-//}
-//
-//// 颜色渐变效果
-//void color_transition(Color from, Color to, unsigned int steps) {
-//    int i;
-//    Color temp;
-//    for(i = 0; i <= steps; i++) {
-//        temp.r = from.r + ((to.r - from.r) * i / steps);
-//        temp.g = from.g + ((to.g - from.g) * i / steps);
-//        temp.b = from.b + ((to.b - from.b) * i / steps);
-//        set_color(temp);
-//        delay_ms(20);
-//    }
-//}
+    for (i = 0; i < 255; i += 32) {  // 减少亮度步进值
+        for (h = 0; h < 360; h += 60) {  // 减少色相步进值
+            hsv2rgb(h, 255, i, &r, &g, &b);
+            set_color_rgb(r, g, b);
+            delay_ms(20);
+        }
+    }
+}
