@@ -1,15 +1,17 @@
-//
-// Created by qw on 25-7-12.
-//
-
+/*
+ * @file delay.c
+ * @brief 精确延时函数实现
+ * @version 1.0
+ * @date 2025-07-22
+ *
+ * @note 该文件提供了精确的毫秒和微秒延时函数，适用于11.0592MHz晶振的8051单片机。
+ *       使用SDCC编译器进行编译，确保兼容性。
+ */
 #include "delay.h"
 
-// SDCC编译器兼容的内联汇编宏
-#if defined(__SDCC)
+
 #define ASM_NOP() __asm__("nop")
-#else
-#define ASM_NOP() _nop_()
-#endif
+
 
 /**
  * @brief 精确毫秒延时函数（11.0592MHz晶振优化）

@@ -1,10 +1,11 @@
 //
 // Created by qw on 25-7-17.
 //
+#include "config.h"
 
-#include "led_color_show.h"
-#include "../../drivers/display/led_1bit_5050.h"
-#include "../../utils/delay.h"
+#if USE_LED_1BIT_5050
+#include "led_1bit_5050_effect.h"
+#include "drivers/display/led_1bit_5050.h"
 
 void led_color_show(void) {
     // 颜色定义：红色、绿色、蓝色
@@ -104,7 +105,7 @@ void led_color_show_rainbow(void) {
     delay_ms(1000); // 效果持续1秒
 }
 
-void led_color_show_all(void) {
+void led_1bit_5050_effect_run(void) {
     // 显示所有颜色效果
     led_color_show();
     led_color_show_bright();
@@ -114,3 +115,4 @@ void led_color_show_all(void) {
     led_color_show_breathing_hex();
     led_color_show_rainbow();
 }
+#endif // USE_LED_1BIT_5050

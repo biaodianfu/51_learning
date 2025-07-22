@@ -1,3 +1,4 @@
+#include "config.h"
 /*
  * 1位5050 RGB LED驱动程序
  * 支持通过颜色名称、十六进制字符串或HSV值设置颜色
@@ -5,9 +6,8 @@
  *
  * 适用于使用1位PWM模拟RGB LED的应用场景
  */
+#if USE_LED_1BIT_5050
 #include "led_1bit_5050.h"
-#include "configs/led_1bit_5050_config.h"
-#include "utils/delay.h"
 #include <string.h> // 为了使用标准字符串函数
 #include <lint.h>
 
@@ -431,3 +431,4 @@ void rainbow_effect(void) {
         }
     }
 }
+#endif

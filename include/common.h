@@ -11,7 +11,7 @@
     #define CODE     __code
 #elif defined(__C51__)                // Keil C51
     #define __FAR__ far
-    #define CODE     code
+    #define CODE   code
 #else
     #define __FAR__
     #define CODE
@@ -24,15 +24,5 @@ typedef unsigned long  uint32_t;
 typedef signed char  int8_t;
 typedef signed short int16_t;
 typedef signed long  int32_t;
-
-typedef enum {
-    LOW = 0,
-    HIGH = 1
-} PinState;
-
-typedef enum {
-    DISABLE = 0,
-    ENABLE  = 1
-} FuncState;
 
 #endif //COMMON_H

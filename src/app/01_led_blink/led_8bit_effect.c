@@ -1,9 +1,8 @@
-//
-// Created by qw on 25-7-12.
-//
-#include "led_effect_show.h"
-#include "utils/delay.h"
-#include "../../drivers/display/led_8bit.h"
+#include "config.h"
+// LED效果展示模块
+#if USE_LED_8BIT
+#include "led_8bit_effect.h"
+#include "drivers/display/led_8bit.h"
 
 // 效果执行辅助函数
 static void run_effect(void (*effect_func)(void), unsigned char times) {
@@ -14,7 +13,7 @@ static void run_effect(void (*effect_func)(void), unsigned char times) {
 }
 
 // LED效果展示模块
-void led_effect_module_run(void) {
+void led_8bit_effect_run(void) {
     // 定义效果列表：{效果函数, 执行次数}
     struct {
         void (*func)(void);
@@ -39,4 +38,5 @@ void led_effect_module_run(void) {
         run_effect(effects[i].func, effects[i].times);
     }
 }
+#endif // USE_LED_8BIT
 

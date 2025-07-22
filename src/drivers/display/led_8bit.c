@@ -1,11 +1,7 @@
+#include "config.h"
 
-//
-// Created by qw on 25-7-12.
-//
-#include "STC89C5xRC.h"
+#if USE_LED_8BIT
 #include "led_8bit.h"
-#include "utils/delay.h"
-#include "configs/led_8bit_config.h"
 
 /**
  * 关闭所有LED灯（全灭）
@@ -219,3 +215,4 @@ void led_tide(void) {
         delay_ms(FLOW_DELAY_MS);
     }
 }
+#endif
