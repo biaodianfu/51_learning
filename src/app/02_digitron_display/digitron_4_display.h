@@ -1,0 +1,4 @@
+#ifndef INC_51_LEARNING_DIGITRON_4_DISPLAY_H
+#define INC_51_LEARNING_DIGITRON_4_DISPLAY_H
+void digitron_4_display_show(void);
+#endif //INC_51_LEARNING_DIGITRON_4_DISPLAY_H

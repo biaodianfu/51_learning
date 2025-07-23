@@ -1,8 +1,8 @@
 
-#include "app/02_digitron_display/digitron_1_display.h"
+#include "app/02_digitron_display/digitron_4_display.h"
 
 int main(void) {
     while (1) {
-        digitron_1_display_show();
+        digitron_4_display_show();
     }
 }

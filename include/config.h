@@ -8,7 +8,10 @@
 // 功能模块开关
 #define USE_LED_8BIT  0
 #define USE_LED_1BIT_5050 0
-#define USE_DIGITRON_1 1
+#define USE_LED_1BIT_WS2812 0
+#define USE_DIGITRON_1 0
+#define USE_DIGITRON_4 1
+
 
 // LED效果配置
 #if USE_LED_8BIT
@@ -24,22 +27,40 @@
 #define LED_G P22
 #endif
 
-// 1位数码管配置
+#if USE_LED_1BIT_WS2812
+#define LED_WS2812 P20 // WS2812 LED数据引脚
+#endif
+
 #if USE_DIGITRON_1
 // 数码管1位数字显示的引脚定义
 // 1位共阳数码管的段码定义
 #define DIG_1 P1
-#define DIG_A P10
-#define DIG_B P11
-#define DIG_C P12
-#define DIG_D P13
-#define DIG_E P14
-#define DIG_F P15
-#define DIG_G P16
+//#define DIG_A P10
+//#define DIG_B P11
+//#define DIG_C P12
+//#define DIG_D P13
+//#define DIG_E P14
+//#define DIG_F P15
+//#define DIG_G P16
 #define DIG_DP P17 // 小数点引脚
 #endif // USE_DIGITRON_1
 
-
+#if USE_DIGITRON_4
+#define DIG_DIG P2
+#define DIG_SEG P1
+//#define DIG_D1 P20
+//#define DIG_D2 P21
+//#define DIG_D3 P22
+//#define DIG_D4 P23
+//#define DIG_A P10
+//#define DIG_B P11
+//#define DIG_C P12
+//#define DIG_D P13
+//#define DIG_E P14
+//#define DIG_F P15
+//#define DIG_G P16
+#define DIG_DP P17 // 小数点引脚
+#endif // USE_DIGITRON_4
 
 
 #endif //CONFIG_H

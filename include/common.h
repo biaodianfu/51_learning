@@ -11,7 +11,7 @@
     #define CODE     __code
 #elif defined(__C51__)                // Keil C51
     #define __FAR__ far
-    #define CODE   code
+    #define CODE code
 #else
     #define __FAR__
     #define CODE
