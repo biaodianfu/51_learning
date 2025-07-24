@@ -8,7 +8,7 @@
 /**************** 1. 编译器适配 ****************/
 #if defined(__SDCC) || defined(SDCC)  // SDCC编译器
     #define __FAR__ __far
-    #define CODE     __code
+    #define CODE __code
 #elif defined(__C51__)                // Keil C51
     #define __FAR__ far
     #define CODE code
