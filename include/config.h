@@ -10,7 +10,8 @@
 #define USE_LED_1BIT_5050 0
 #define USE_LED_1BIT_WS2812 0
 #define USE_DIGITRON_1 0
-#define USE_DIGITRON_4 1
+#define USE_DIGITRON_4 0
+#define USE_DIGITRON_4_HC595 1
 
 
 // LED效果配置
@@ -61,6 +62,12 @@
 //#define DIG_G P16
 #define DIG_DP P17 // 小数点引脚
 #endif // USE_DIGITRON_4
+
+#if USE_DIGITRON_4_HC595
+#define HC595_DIO P20 // 串行数据输入
+#define HC595_RCLK P21 // 时钟脉冲信号——上升沿有效
+#define HC595_SCLK P22 // 打入信号————上升沿有效
+#endif // USE_DIGITRON_4_HC595
 
 
 #endif //CONFIG_H

@@ -69,7 +69,5 @@ void delay_ms_refresh(unsigned int t) {
     }
 }
 
-
-
 #endif
 
