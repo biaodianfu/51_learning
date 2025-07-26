@@ -28,3 +28,15 @@ void digitron_4_display_show(void) {
     }
 }
 #endif
+
+#if USE_DIGITRON_4_TM1637
+#include "drivers/display/digitron_4_tm1637.h"
+void digitron_4_display_show(void) {
+    unsigned int i;
+    TM1637_init(); // 初始化TM1637
+    for (i = 0; i < 9999; i++) {
+        TM1637_display_number(i, 1); // 显示当前数字，前导零
+        delay_ms(500); // 延时500毫秒
+    }
+}
+#endif

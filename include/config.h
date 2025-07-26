@@ -12,7 +12,8 @@
 #define USE_DIGITRON_1 0
 #define USE_DIGITRON_4 0
 #define USE_DIGITRON_4_HC595 0
-#define USE_DIGITRON_4_HC595x4 1
+#define USE_DIGITRON_4_HC595x4 0
+#define USE_DIGITRON_4_TM1637 1
 
 
 // LED效果配置
@@ -75,6 +76,11 @@
 #define HC595_SCLK P21 // 移位时钟
 #define HC595_LOAD P22 // 锁存时钟
 #endif // USE_DIGITRON_4_HC595x4
+
+#if USE_DIGITRON_4_TM1637
+#define TM1637_CLK P20 // 时钟引脚
+#define TM1637_DIO P21 // 数据引脚
+#endif // USE_DIGITRON_4_TM1637
 
 
 #endif //CONFIG_H
