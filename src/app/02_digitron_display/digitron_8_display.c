@@ -1,6 +1,3 @@
-//
-// Created by qw on 25-7-28.
-//
 #include "config.h"
 #include "digitron_8_display.h"
 
