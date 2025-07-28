@@ -13,8 +13,8 @@
 #define USE_DIGITRON_4 0
 #define USE_DIGITRON_4_HC595 0
 #define USE_DIGITRON_4_HC595x4 0
-#define USE_DIGITRON_4_TM1637 1
-
+#define USE_DIGITRON_4_TM1637 0
+#define USE_DIGITRON_8_HC164 1
 
 // LED效果配置
 #if USE_LED_8BIT
@@ -81,6 +81,14 @@
 #define TM1637_CLK P20 // 时钟引脚
 #define TM1637_DIO P21 // 数据引脚
 #endif // USE_DIGITRON_4_TM1637
+
+#if USE_DIGITRON_8_HC164
+#define AB P20 // 串行数据输入（通常合并为一个数据输入）
+#define CP P21 // 时钟脉冲信号——上升沿有效
+#define TOTAL_DIGITS 8
+#define SCAN_PERIOD 2000  // 整个8位数码管扫描周期（单位：us，2000us=2ms）
+#define MAX_BRIGHTNESS 1000  // 最大单管点亮时间（防止亮度失衡）
+#endif // USE_DIGITRON_8_HC164
 
 
 #endif //CONFIG_H
