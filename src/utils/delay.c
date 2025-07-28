@@ -8,9 +8,7 @@
  *       使用SDCC编译器进行编译，确保兼容性。
  */
 #include "delay.h"
-
-
-#define ASM_NOP() __asm__("nop")
+#include "common.h"
 
 
 /**

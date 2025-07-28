@@ -7,7 +7,7 @@ void digitron_8_display_show(void) {
     unsigned long last = -1;
     for (unsigned long i = 0; i < 100000000; i++) {
         if (i != last) {
-            set_number(i); // 显示数字
+            set_number(i, 0); // 显示数字
             last = i;
         }
     }

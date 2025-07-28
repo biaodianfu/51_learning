@@ -1,9 +1,10 @@
 #include "config.h"
+
 #if USE_DIGITRON_4
 #include "digitron_4.h"
 
 // 共阳数码管段码表（0-9，顺序为dp g f e d c b a）
-unsigned char __code segCode[10] = {
+unsigned char __code seg_code[] = {
     0xC0, // 0: 1100 0000
     0xF9, // 1: 1111 1001
     0xA4, // 2: 1010 0100
@@ -17,7 +18,7 @@ unsigned char __code segCode[10] = {
 };
 
 // 位选编码（第1~4位）
-unsigned char __code bitCode[4] = {
+unsigned char __code bit_code[] = {
     0xFE, // 第1位 1111 1110
     0xFD, // 第2位 1111 1101
     0xFB, // 第3位 1111 1011
@@ -33,7 +34,7 @@ void refresh_digitron(void) {
     static unsigned char pos = 0;
 
     DIG_SEG = 0xFF; // 清段
-    DIG_DIG = bitCode[pos];     // 位选
+    DIG_DIG = bit_code[pos];     // 位选
     DIG_SEG = digits_seg[pos];  // 显示该位内容
 
     pos = (pos + 1) % 4;
@@ -55,8 +56,7 @@ void set_number(unsigned int num, unsigned char leading_zero) {
         if (!show_flag && raw_digits[i] == 0 && i < 3) {
             digits_seg[i] = 0xFF;  // 空白
         } else {
-            show_flag = 1;
-            digits_seg[i] = segCode[raw_digits[i]];
+            digits_seg[i] = seg_code[raw_digits[i]];
         }
     }
 }
