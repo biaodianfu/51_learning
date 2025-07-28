@@ -1,5 +1,5 @@
 #include "config.h"
-#include "drivers/display/digitron_8_hc164.h"
+#include "app/02_digitron_display/digitron_8_display.h"
 
 // 数码管显示函数（修复延时问题）
 //void digitron_8_display_show(void) {
@@ -17,7 +17,8 @@
 // 主函数
 int main(void) {
     while (1) {
-        set_number(12345678); // 主循环可以添加其他逻辑
+        digitron_8_display_show(); // 调用数码管显示函数
+        delay_ms(100); // 延时100ms，避免过快刷新
     }
     return 0;
 }
