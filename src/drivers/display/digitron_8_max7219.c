@@ -51,88 +51,78 @@ void max7219_write(unsigned char addr, unsigned char dat) {
     LOAD = 1;   // 结束传输
 }
 
-//// 初始化MAX7219
-//void MAX7219_Init(void) {
-//    // 关闭显示测试
-//    MAX7219_Write(0x0F, 0x00);
-//
-//    // 禁用BCD解码
-//    MAX7219_Write(0x09, 0x00);
-//
-//    // 设置中等亮度
-//    MAX7219_Write(0x0A, 0x07);
-//
-//    // 扫描所有8位数码管
-//    MAX7219_Write(0x0B, 0x07);
-//
-//    // 正常操作模式
-//    MAX7219_Write(0x0C, 0x01);
-//
-//    // 清空显示
-//    MAX7219_Write(0x01, 0x00);  // Digit 0 (最右边)
-//    MAX7219_Write(0x02, 0x00);
-//    MAX7219_Write(0x03, 0x00);
-//    MAX7219_Write(0x04, 0x00);
-//    MAX7219_Write(0x05, 0x00);
-//    MAX7219_Write(0x06, 0x00);
-//    MAX7219_Write(0x07, 0x00);
-//    MAX7219_Write(0x08, 0x00);  // Digit 7 (最左边)
-//}
-//
-//// 设置数码管显示 (修正位序)
-//void Set_Digit(unsigned char pos, unsigned char val) {
-//    unsigned char reg;
-//
-//    // 调整位序：实际数码管位置0-7对应寄存器1-8
-//    // 位置0: 最右边 (Digit0) -> 寄存器1
-//    // 位置7: 最左边 (Digit7) -> 寄存器8
-//    reg = pos + 1;  // 寄存器地址 = 位置 + 1
-//
-//    if(val < 16) {
-//        MAX7219_Write(reg, digitTable[val]); // 显示数字
-//    } else {
-//        MAX7219_Write(reg, digitTable[16]); // 显示空格
-//    }
-//}
-//
-//// 显示整数值 (修正位序)
-//void Display_Number(unsigned long num) {
-//    unsigned char i;
-//    unsigned char digits[8];  // 存储8位数字 (右到左)
-//
-//    // 分离数字 (从低位到高位)
-//    for(i = 0; i < 8; i++) {
-//        digits[i] = num % 10;   // 当前位数字
-//        num = num / 10;         // 移除已处理数字
-//    }
-//
-//    // 设置数码管 (右到左显示)，位置0为最右边
-//    for(i = 0; i < 8; i++) {
-//        // 设置第i位数码管 (从右向左)
-//        Set_Digit(i, digits[i]);
-//    }
-//}
-//
+// 初始化MAX7219
+void max7219_init(void) {
+    // 关闭显示测试
+    max7219_write(0x0F, 0x00);
 
-//// 主程序
-//void main(void) {
-//    unsigned long counter = 12345678; // 初始显示数字
-//
-//    // 初始化IO
-//    DIN = 0;
-//    LOAD = 1;
-//    CLK = 0;
-//    delay_ms(100);  // 电源稳定延时
-//
-//    // 初始化MAX7219
-//    MAX7219_Init();
-//
-//    // 主循环
-//    while(1) {
-//        Display_Number(counter);  // 显示当前数值
-//        counter = (counter + 1) % 100000000;  // 0-99999999循环
-//        delay_ms(100);
-//    }
-//}
+    // 禁用BCD解码
+    max7219_write(0x09, 0x00);
+
+    // 设置中等亮度
+    max7219_write(0x0A, 0x07);
+
+    // 扫描所有8位数码管
+    max7219_write(0x0B, 0x07);
+
+    // 正常操作模式
+    max7219_write(0x0C, 0x01);
+
+    // 清空显示
+    max7219_write(0x01, 0x00);  // Digit 0 (最右边)
+    max7219_write(0x02, 0x00);
+    max7219_write(0x03, 0x00);
+    max7219_write(0x04, 0x00);
+    max7219_write(0x05, 0x00);
+    max7219_write(0x06, 0x00);
+    max7219_write(0x07, 0x00);
+    max7219_write(0x08, 0x00);  // Digit 7 (最左边)
+}
+
+static unsigned char digits_seg[8] = {0};
+
+void set_number(unsigned long num, unsigned char leading_zero) {
+    if(num > 99999999) num = 99999999;
+
+    unsigned char raw_digits[8] = {
+            (num / 10000000) % 10,
+            (num / 1000000) % 10,
+            (num / 100000) % 10,
+            (num / 10000) % 10,
+            (num / 1000) % 10,
+            (num / 100) % 10,
+            (num / 10) % 10,
+            num % 10
+    };
+
+    unsigned char show_flag = leading_zero;
+    for(unsigned char i = 0; i < 8; i++)
+    {
+        if (!show_flag && raw_digits[i] == 0 && i < 7)
+            digits_seg[i] = 0x00;  // 空白
+        else {
+            digits_seg[i] = seg_code[raw_digits[i]];
+        }
+    }
+}
+
+void refresh_digitron(void) {
+    for(unsigned char i = 0; i < 8; i++) {
+        max7219_write(i + 1, digits_seg[i]); // 寄存器1-8对应Digit0-Digit7
+    }
+}
+
+
+
+
+void delay_ms_refresh(unsigned int ms)
+{
+    max7219_init(); // 初始化MAX7219
+    while(ms--)
+    {
+        refresh_digitron(); // 刷新数码管
+        delay_ms(1);       // 延时1毫秒
+    }
+}
 
 #endif // USE_DIGITRON_8_MAX7219
