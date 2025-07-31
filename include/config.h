@@ -9,6 +9,7 @@
 #define USE_LED_8BIT 0
 #define USE_LED_1BIT_5050 0
 #define USE_LED_1BIT_WS2812 0
+#define USE_LED_MATRIX_8x8_MAX7219 0
 #define USE_DIGITRON_1 0
 #define USE_DIGITRON_4 0
 #define USE_DIGITRON_4_HC595 0
@@ -34,6 +35,12 @@
 #if USE_LED_1BIT_WS2812
 #define LED_WS2812 P20 // WS2812 LED数据引脚
 #endif
+
+#if USE_LED_MATRIX_8x8_MAX7219
+#define MAX7219_CLK P20 // 时钟引脚
+#define MAX7219_CS P21 // 片选引脚
+#define MAX7219_DIN P22 // 数据输入引脚
+#endif // USE_LED_MATRIX_8x8_MAX7219
 
 #if USE_DIGITRON_1
 // 数码管1位数字显示的引脚定义

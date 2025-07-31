@@ -4,5 +4,5 @@
 
 #ifndef LED_MATRIX_H
 #define LED_MATRIX_H
-
+void display_matrix(unsigned char *pattern);
 #endif //LED_MATRIX_H
