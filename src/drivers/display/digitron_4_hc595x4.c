@@ -31,9 +31,9 @@ unsigned char __code seg_code[] = {
  */
 void send_bits(unsigned char data) {
     for (unsigned char i = 0; i < 8; i++) {
+        HC595_SCLK = 1;
         HC595_SDI = (data & 0x80);  // 取最高位
         HC595_SCLK = 1;
-        HC595_SCLK = 0;
         data <<= 1;
     }
 }

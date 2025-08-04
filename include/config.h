@@ -9,7 +9,8 @@
 #define USE_LED_8BIT 0
 #define USE_LED_1BIT_5050 0
 #define USE_LED_1BIT_WS2812 0
-#define USE_LED_MATRIX_8x8_MAX7219 1
+#define USE_LED_MATRIX_8x8_MAX7219 0
+#define USE_LED_MATRIX_8x8_HC595 1
 #define USE_DIGITRON_1 0
 #define USE_DIGITRON_4 0
 #define USE_DIGITRON_4_HC595 0
@@ -101,7 +102,11 @@
 #define MAX7219_DIN P22 // 数据输入引脚
 #endif // USE_DIGITRON_8_MAX7219
 
-
+#if USE_LED_MATRIX_8x8_HC595
+#define HC595_DI P20 // 串行数据输入
+#define HC595_CLK P21 // 移位时钟
+#define HC595_LAT P22 // 锁存时钟
+#endif // USE_LED_MATRIX_8x8_HC595
 
 #endif //CONFIG_H
 

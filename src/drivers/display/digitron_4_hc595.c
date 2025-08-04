@@ -30,11 +30,11 @@ unsigned char digits_seg[] = {SEGMENT_BLANK, SEGMENT_BLANK, SEGMENT_BLANK, SEGME
  * 该函数通过位操作将一个字节的数据逐位发送到HC595移位寄存器中，
  * 使用软件模拟SPI通信协议，先发送最高位(MSB)。
  */
-void send_bits(const unsigned char data) {
+void send_bits(unsigned char data) {
     // 循环发送数据的每一位，从最高位开始
     for(unsigned char i = 0; i < 8; i++) {
-        HC595_DIO = (data & 0x80) ? 1 : 0;  // 发送最高位
         HC595_SCLK = 0;
+        HC595_DIO = (data & 0x80) ? 1 : 0;  // 发送最高位
         HC595_SCLK = 1;
         data <<= 1;
     }
@@ -52,9 +52,9 @@ void refresh_digitron(void)
     for(unsigned char i = 0; i < 4; i++)
     {
         send_bits(digits_seg[i]);             // 段码保持不变
-        send_bits(1 << (3 - i));              // 位选从左到右
+        send_bits(1 << (3 - i));
         HC595_RCLK = 0;
-        HC595_RCLK = 1;
+        HC595_RCLK = 1;// 位选从左到右
     }
 }
 
