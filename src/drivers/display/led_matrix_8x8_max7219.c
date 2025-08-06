@@ -347,7 +347,7 @@ void animate_square(void) {
  * @param c 要获取索引的字符
  * @return 字符在FONT_CENTERED数组中的索引
  */
-int get_char_index(char c) {
+int get_char_index(unsigned char c) {
     if (c >= '0' && c <= '9') return c - '0';
     if (c >= 'A' && c <= 'Z') return 10 + (c - 'A');
     if (c >= 'a' && c <= 'z') return 36 + (c - 'a');
