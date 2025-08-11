@@ -49,6 +49,5 @@ void led_8bit_effect_run(void) {
     // 12. 潮汐效果
     run_effect(led_tide, 3);
 }
-
 #endif // USE_LED_8BIT
 
