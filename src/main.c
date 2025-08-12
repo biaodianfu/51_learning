@@ -1,7 +1,15 @@
 #include "config.h"
+#include "drivers/communication/uart.h"
+#include "app/02_digitron_display/digitron_4_display.h"
 
-int main(void) {
-    led_1bit_ws2812_effect_run(); // 调用WS2812测试函数
-    return 0;
+void main() {
+    uart_init();
+    while (1) {
+        // 显示数字
+        digitron_4_display_show();
+
+        // 其他功能可以在这里添加
+        // 例如：LED效果、LCD显示等
+    }
+
 }
-

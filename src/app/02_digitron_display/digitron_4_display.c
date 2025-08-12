@@ -36,3 +36,13 @@ void digitron_4_display_show(void) {
     }
 }
 #endif
+
+#if USE_DIGITRON_4_uart
+#include "drivers/display/digitron_4_uart.h"
+void digitron_4_display_show(void) {
+    for (unsigned int i = 0; i < 9999; i++) {
+        sent_number_via_uart(i);    // 通过UART发送数字
+        delay_ms(500);              // 延时500毫秒
+    }
+}
+#endif

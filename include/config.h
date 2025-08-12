@@ -8,18 +8,19 @@
 // 功能模块开关
 #define USE_LED_8BIT 0
 #define USE_LED_1BIT_5050 0
-#define USE_LED_1BIT_WS2812 1 // 使用WS2812驱动的1位LED灯带
-#define USE_LED_8BIT_WS2812 0
 #define USE_LED_MATRIX_8x8_MAX7219 0
 #define USE_LED_MATRIX_8x8_MAX7219x4 0 // 使用HC595驱动的8x8 LED矩阵
 #define USE_LED_MATRIX_8x8_HC595 0
+#define USE_LED_MATRIX_8x8_HT16K33 0
 #define USE_DIGITRON_1 0
 #define USE_DIGITRON_4 0
 #define USE_DIGITRON_4_HC595 0
 #define USE_DIGITRON_4_HC595x4 0
 #define USE_DIGITRON_4_TM1637 0
+#define USE_DIGITRON_4_uart 1
 #define USE_DIGITRON_8_HC164 0
 #define USE_DIGITRON_8_MAX7219 0
+#define USE_UART 1
 
 // LED效果配置
 #if USE_LED_8BIT
@@ -112,6 +113,17 @@
 #define MAX7219_CS P21 // 片选引脚
 #define MAX7219_DIN P22 // 数据输入引脚
 #endif // USE_LED_MATRIX_8x8_MAX7219x4
+
+#if USE_LED_MATRIX_8x8_HT16K33
+#define SCL P20 // 时钟引脚
+#define SDA P21 // 数据输入引脚
+#define HT16K33_ADDR 0x70     // 芯片I²C地址
+#define WRITE_ADDR   (HT16K33_ADDR << 1)  // 写地址：0xE0
+#endif // USE_LED_MATRIX_8x8_HT16K33
+
+#if USE_UART
+#define UART_BAUD 9600 // 波特率设置
+#endif // USE_UART
 
 #endif //CONFIG_H
 
