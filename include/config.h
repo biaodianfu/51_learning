@@ -21,7 +21,9 @@
 #define USE_DIGITRON_8_HC164 0
 #define USE_DIGITRON_8_MAX7219 0
 #define USE_UART 0
-#define USE_LCD_1602 1
+#define USE_LCD_1602 0
+#define USE_LCD_1602_I2C 1 // 使用I2C接口的LCD1602
+#define USE_SOFT_I2C 1 // 使用软件I2C
 
 // LED效果配置
 #if USE_LED_8BIT
@@ -126,12 +128,23 @@
 #define UART_BAUD 9600 // 波特率设置
 #endif // USE_UART
 
-# if USE_LCD_1602
+#if USE_LCD_1602
 #define LCD_RS P20 // RS引脚
 #define LCD_RW P21 // RW引脚
 #define LCD_EN P22 // EN引脚
 #define LCD_DATA P0 // 数据引脚（8位数据总线）
 #endif // USE_LCD_1602
+
+#if USE_LCD_1602_I2C
+#define I2C_ADDR 0x4E // I2C地址
+#endif // USE_LCD_1602_I2C
+
+#if USE_SOFT_I2C
+#define SDA P20 // I2C数据引脚
+#define SCL P21 // I2C时钟引脚
+#define I2C_DELAY 5 // I2C延时，单位为毫秒
+#endif // USE_SOFT_I2C
+
 
 #endif //CONFIG_H
 

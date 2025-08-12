@@ -61,16 +61,8 @@ void lcd1602_clear(void) {
 }
 
 void lcd1602_display_number(unsigned int number) {
-    // 显示数字到LCD1602
-    char buffer[16]; // 用于存储4位数字和结束符
-    buffer[15] = '\0'; // 字符串结束符
-
-    // 将数字转换为字符串，确保是4位，不足前面补0
-    for (int i = 15; i >= 0; i--) {
-        buffer[i] = (number % 10) + '0';
-        number /= 10;
-    }
-
+    char buffer[16];
+    sprintf(buffer, "%d", number); // 将数字转换为字符串
     lcd1602_write_string(buffer); // 写入字符串到LCD
 }
 
