@@ -17,10 +17,11 @@
 #define USE_DIGITRON_4_HC595 0
 #define USE_DIGITRON_4_HC595x4 0
 #define USE_DIGITRON_4_TM1637 0
-#define USE_DIGITRON_4_uart 1
+#define USE_DIGITRON_4_uart 0
 #define USE_DIGITRON_8_HC164 0
 #define USE_DIGITRON_8_MAX7219 0
-#define USE_UART 1
+#define USE_UART 0
+#define USE_LCD_1602 1
 
 // LED效果配置
 #if USE_LED_8BIT
@@ -124,6 +125,13 @@
 #if USE_UART
 #define UART_BAUD 9600 // 波特率设置
 #endif // USE_UART
+
+# if USE_LCD_1602
+#define LCD_RS P20 // RS引脚
+#define LCD_RW P21 // RW引脚
+#define LCD_EN P22 // EN引脚
+#define LCD_DATA P0 // 数据引脚（8位数据总线）
+#endif // USE_LCD_1602
 
 #endif //CONFIG_H
 
