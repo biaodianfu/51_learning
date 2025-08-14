@@ -22,8 +22,9 @@
 #define USE_DIGITRON_8_MAX7219 0
 #define USE_UART 0
 #define USE_LCD_1602 0
-#define USE_LCD_1602_I2C 1 // 使用I2C接口的LCD1602
-#define USE_SOFT_I2C 1 // 使用软件I2C
+#define USE_LCD_1602_I2C 0 // 使用I2C接口的LCD1602
+#define USE_SOFT_I2C 0 // 使用软件I2C
+#define USE_NOKIA_5110_LCD 1
 
 // LED效果配置
 #if USE_LED_8BIT
@@ -144,6 +145,18 @@
 #define SCL P21 // I2C时钟引脚
 #define I2C_DELAY 5 // I2C延时，单位为毫秒
 #endif // USE_SOFT_I2C
+
+#if USE_NOKIA_5110_LCD
+#define LCD_RST P20
+#define LCD_CE P21
+#define LCD_DC P22
+#define SDIN P23
+#define SCLK P24
+#define LCD_BL  P25
+#define LCD_WIDTH 84
+#define LCD_HEIGHT 48
+#define LCD_ROW 6 // LCD 能显示行数
+#endif // USE_NOKIA_5110_LCD
 
 
 #endif //CONFIG_H
