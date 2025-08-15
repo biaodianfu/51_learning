@@ -2,13 +2,17 @@
 #if USE_DIGITRON_1
 #include "digitron_1.h"
 
+// 定义小数点状态常量以增强可读性
+#define DP_ON  0
+#define DP_OFF 1
+
 /**
  * @brief 共阳数码管0-9的段码表，用于显示数字0到9
  *
  * 段码按照gfedcba顺序排列，0表示该段点亮，1表示该段熄灭。
  * 例如：0xC0 对应二进制 1100 0000，表示数码管显示数字0。
  */
-unsigned char __code seg_code[] = {
+const unsigned char __code seg_code[] = {
     0xC0, // 0: 1100 0000
     0xF9, // 1: 1111 1001
     0xA4, // 2: 1010 0100
@@ -20,10 +24,6 @@ unsigned char __code seg_code[] = {
     0x80, // 8: 1000 0000
     0x90  // 9: 1001 0000
 };
-
-// 定义小数点状态常量以增强可读性
-#define DP_ON  0
-#define DP_OFF 1
 
 /**
  * @brief 在数码管上显示一个数字，并控制小数点是否点亮

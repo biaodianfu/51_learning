@@ -9,7 +9,7 @@
  * 每个字节表示一个数字对应的段点亮情况：
  * bit0 ~ bit6 分别对应 a ~ g 段
  */
-unsigned char __code seg_code[] = {
+const unsigned char __code seg_code[] = {
     0x3f, // 0: 0011 1111
     0x06, // 1: 0000 0110
     0x5b, // 2: 0101 1011

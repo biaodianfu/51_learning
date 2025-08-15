@@ -6,7 +6,7 @@
  * @brief 数码管段码表，用于显示数字0-9。
  * 每个字节表示一个数字在共阴极数码管上的点亮段。
  */
-unsigned char __code seg_code[] = {
+const unsigned char __code seg_code[] = {
     0x7E, // 0
     0x30, // 1
     0x6D, // 2

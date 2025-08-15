@@ -9,7 +9,7 @@
  * 每个字节表示一个数字在共阳极数码管上的点亮模式。
  * 位顺序为 gfedcba，其中 0 表示点亮，1 表示熄灭。
  */
-unsigned char __code seg_code[] = {
+const unsigned char __code seg_code[] = {
     0xC0, // 0: 1100 0000
     0xF9, // 1: 1111 1001
     0xA4, // 2: 1010 0100

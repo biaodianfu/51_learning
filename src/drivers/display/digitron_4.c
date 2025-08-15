@@ -4,7 +4,7 @@
 #include "digitron_4.h"
 
 // 共阳数码管段码表（0-9，顺序为dp g f e d c b a）
-unsigned char __code seg_code[] = {
+const unsigned char __code seg_code[] = {
     0xC0, // 0: 1100 0000
     0xF9, // 1: 1111 1001
     0xA4, // 2: 1010 0100
@@ -18,7 +18,7 @@ unsigned char __code seg_code[] = {
 };
 
 // 位选编码（第1~4位）
-unsigned char __code bit_code[] = {
+const unsigned char __code bit_code[] = {
     0xFE, // 第1位 1111 1110
     0xFD, // 第2位 1111 1101
     0xFB, // 第3位 1111 1011

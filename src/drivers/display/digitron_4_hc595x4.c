@@ -8,7 +8,7 @@
  * 用于驱动共阳极数码管显示数字0到9的段码值。
  * 每个字节对应一个数字的亮灭状态，bit为0表示该段点亮。
  */
-unsigned char __code seg_code[] = {
+const unsigned char __code seg_code[] = {
         0xC0, // 0
         0xF9, // 1
         0xA4, // 2
@@ -37,7 +37,6 @@ void send_bits(unsigned char data) {
         data <<= 1;
     }
 }
-
 
 /**
  * @brief 数码管显示缓存（4 位）
