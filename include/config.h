@@ -23,8 +23,9 @@
 #define USE_UART 0
 #define USE_LCD_1602 0
 #define USE_LCD_1602_I2C 0 // 使用I2C接口的LCD1602
-#define USE_SOFT_I2C 0 // 使用软件I2C
-#define USE_NOKIA_5110_LCD 1
+#define USE_SOFT_I2C 1 // 使用软件I2C
+#define USE_NOKIA_5110_LCD 0
+#define USE_OLED_12864_I2C 1
 
 // LED效果配置
 #if USE_LED_8BIT
@@ -157,6 +158,14 @@
 #define LCD_HEIGHT 48
 #define LCD_ROW 6 // LCD 能显示行数
 #endif // USE_NOKIA_5110_LCD
+
+#if USE_OLED_12864_I2C
+#define OLED_CMD 0 // OLED
+#define OLED_DATA 1 // OLED 数据
+#define OLED_ADDR 0x78 // OLED I2C 地址
+#define OLED_WIDTH 128 // OLED 宽度
+#define OLED_HEIGHT 64 // OLED 高度
+#endif // USE_OLED_12864_I2C
 
 
 #endif //CONFIG_H
