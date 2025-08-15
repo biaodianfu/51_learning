@@ -1,9 +1,14 @@
+/c++
 #include "config.h"
 #include <string.h>
 
 #if USE_LED_MATRIX_8x8_MAX7219x4
 #include "led_matrix_8x8_max7219x4.h"
 
+/**
+ * @brief 字体数组，包含数字0-9、字母A-Z和空格的8x8点阵数据
+ * 每个字符由8个字节表示，每个字节对应点阵的一行
+ */
 unsigned char __code font[37][8] = {
     {0x3C,0x42,0x42,0x42,0x42,0x42,0x42,0x3C},//0
     {0x10,0x30,0x50,0x10,0x10,0x10,0x10,0x7C},//1
@@ -44,6 +49,11 @@ unsigned char __code font[37][8] = {
     {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},//space
 };
 
+/**
+ * @brief 获取字符在字体数组中的索引
+ * @param c 输入字符
+ * @return 返回字符对应的索引值（0-36），超出范围返回空格索引36
+ */
 int get_char_index(unsigned char c){
     if (c >= '0' && c <= '9') return c - '0';
     if (c >= 'A' && c <= 'Z') return 10 + (c - 'A');
@@ -51,6 +61,10 @@ int get_char_index(unsigned char c){
     return 36; // 默认返回空格索引
 }
 
+/**
+ * @brief 向MAX7219发送一个字节数据
+ * @param data 要发送的数据字节
+ */
 void send_byte(unsigned char data) {
     for(unsigned char i = 0; i < 8; i++) {
         MAX7219_DIN = (data & 0x80) ? 1 : 0;
@@ -61,21 +75,30 @@ void send_byte(unsigned char data) {
     }
 }
 
+/**
+ * @brief 向四个级联的MAX7219芯片写入数据
+ * @param addr 寄存器地址
+ * @param dat1 第一个芯片的数据
+ * @param dat2 第二个芯片的数据
+ * @param dat3 第三个芯片的数据
+ * @param dat4 第四个芯片的数据
+ */
 void max7219_write(unsigned char addr,unsigned char dat1,unsigned char dat2, unsigned char dat3,unsigned char dat4)
 {
     MAX7219_CS = 0;
     send_byte(addr);
     send_byte(dat1);
-    send_byte(addr);
     send_byte(dat2);
-    send_byte(addr);
     send_byte(dat3);
-    send_byte(addr);
     send_byte(dat4);
     MAX7219_CS = 1;
     MAX7219_CLK = 0;
 }
 
+/**
+ * @brief 初始化MAX7219芯片
+ * 配置解码模式、亮度、扫描位数、工作模式和显示测试
+ */
 void max7219_init(void) {
     max7219_write(0x09, 0x00,0x00,0x00,0x00);   // 解码模式：不译码
     max7219_write(0x0A, 0x01,0x01,0x01,0x01);   // 亮度设置（范围0x00-0x0F）
@@ -84,39 +107,24 @@ void max7219_init(void) {
     max7219_write(0x0F, 0x00,0x00,0x00,0x00);   // 显示测试：关闭
 }
 
+/**
+ * @brief 在LED矩阵上显示四个字符
+ * @param dat1 第一个字符
+ * @param dat2 第二个字符
+ * @param dat3 第三个字符
+ * @param dat4 第四个字符
+ */
 void led_print(unsigned char dat1,unsigned char dat2, unsigned char dat3,unsigned char dat4) {
-    for(unsigned char i = 1;i <= 8;i++) {
-        max7219_write(i,font[get_char_index(dat4)][i-1],font[get_char_index(dat3)][i-1],font[get_char_index(dat2)][i-1],font[get_char_index(dat1)][i-1]);
-    }
-}
+    int idx1 = get_char_index(dat1);
+    int idx2 = get_char_index(dat2);
+    int idx3 = get_char_index(dat3);
+    int idx4 = get_char_index(dat4);
 
-// 主函数
-void test_show(void) {
-    max7219_init(); // 初始化MAX7219
-    static int index = 0; // 静态变量记录当前索引
-    const char *str = "HELLO WORLD 123"; // 目标字符串
-    int len = strlen(str); // 字符串长度
-    unsigned char buffer[4]; // 存储4个字符的缓冲区
-
-    while (index < len ) {
-        // 填充4个字符
-        for (int i = 0; i < 4; i++) {
-            int pos = index + i;
-            if (pos < len) {
-                buffer[i] = str[pos]; // 有效字符
-            } else {
-                buffer[i] = ' '; // 超出长度时填充空格
-            }
-        }
-
-        // 调用显示函数
-        led_print(buffer[3],buffer[2], buffer[1], buffer[0]);
-
-        // 更新索引（循环逻辑）
-        index = (index + 1) % (len + 1); // +1确保滚动到末尾后重置
-        if (index > len) index = 0; // 重置条件
-        delay_ms(1000); // 延时500毫秒
+    // 逐行发送字符点阵数据到四个MAX7219芯片
+    for(unsigned char i = 1; i <= 8; i++) {
+        max7219_write(i, font[idx4][i-1], font[idx3][i-1], font[idx2][i-1], font[idx1][i-1]);
     }
 }
 
 #endif  // USE_LED_MATRIX_8X8_MAX7219X4
+
