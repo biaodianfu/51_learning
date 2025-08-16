@@ -13,36 +13,36 @@ void oled_12864_init(void) {
     i2c_write_byte(0x78);        // OLED I2C地址 (0x3C << 1)
 
     // 显示控制设置
-    i2c_write_byte(0xAE);        // 关闭显示
-    i2c_write_byte(0xA6);        // 正常显示模式（非反显）
+    i2c_write_byte(0xAE);        // 关闭显示，进入设置模式
+    i2c_write_byte(0xA6);        // 正常显示模式（非反显），0为点亮，1为熄灭
 
     // 显示区域设置
-    i2c_write_byte(0x00);        // 列地址低4位
-    i2c_write_byte(0x10);        // 列地址高4位
-    i2c_write_byte(0x40);        // 起始行地址
-    i2c_write_byte(0xB0);        // 页地址
+    i2c_write_byte(0x00);        // 设置列地址低4位为0
+    i2c_write_byte(0x10);        // 设置列地址高4位为0
+    i2c_write_byte(0x40);        // 设置起始行地址为第0行
+    i2c_write_byte(0xB0);        // 设置页地址为第0页
 
     // 硬件配置
-    i2c_write_byte(0xA8);        // 复用比设置
-    i2c_write_byte(0x3F);        // 1/64 duty
-    i2c_write_byte(0xD3);        // 显示偏移
-    i2c_write_byte(0x00);        // 无偏移
+    i2c_write_byte(0xA8);        // 设置多路复用比命令
+    i2c_write_byte(0x3F);        // 多路复用比设置为63，对应1/64 duty (64行)
+    i2c_write_byte(0xD3);        // 设置显示偏移命令
+    i2c_write_byte(0x00);        // 显示偏移设置为0，无垂直偏移
 
     // 时序控制
-    i2c_write_byte(0xD5);        // 时钟分频
-    i2c_write_byte(0x80);        // 建议值
-    i2c_write_byte(0xD9);        // 预充电周期
-    i2c_write_byte(0xF1);        // 建议值
+    i2c_write_byte(0xD5);        // 设置显示时钟分频因子/振荡器频率命令
+    i2c_write_byte(0x80);        // 时钟分频因子设置为1，振荡器频率设置为0
+    i2c_write_byte(0xD9);        // 设置预充电周期命令
+    i2c_write_byte(0xF1);        // 预充电周期设置为1个时钟周期，放电周期设置为15个时钟周期
 
     // 电压设置
-    i2c_write_byte(0x81);        // 对比度设置
-    i2c_write_byte(0xCF);        // 适中值(0-FF)
-    i2c_write_byte(0xDB);        // VCOMH设置
-    i2c_write_byte(0x30);        // 0.83*VCC
+    i2c_write_byte(0x81);        // 设置对比度控制命令
+    i2c_write_byte(0xCF);        // 对比度值设置为207(0-255)
+    i2c_write_byte(0xDB);        // 设置VCOMH反压命令
+    i2c_write_byte(0x30);        // VCOMH设置为0.83倍VCC
 
     // 开启显示
-    i2c_write_byte(0x8D);        // 充电泵设置
-    i2c_write_byte(0x14);        // 启用充电泵
+    i2c_write_byte(0x8D);        // 设置充电泵命令
+    i2c_write_byte(0x14);        // 启用内部充电泵
     i2c_write_byte(0xAF);        // 打开显示
 
     i2c_stop();

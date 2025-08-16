@@ -162,7 +162,7 @@
 #if USE_OLED_12864_I2C
 #define OLED_CMD 0 // OLED
 #define OLED_DATA 1 // OLED 数据
-#define OLED_ADDR 0x78 // OLED I2C 地址
+#define OLED_I2C_ADDR 0x78 // OLED I2C 地址
 #define OLED_WIDTH 128 // OLED 宽度
 #define OLED_HEIGHT 64 // OLED 高度
 #endif // USE_OLED_12864_I2C
