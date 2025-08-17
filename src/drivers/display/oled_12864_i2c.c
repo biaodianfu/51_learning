@@ -46,6 +46,12 @@ void oled_write_byte(unsigned char dat, unsigned char mode) {
     i2c_stop();
 }
 
+/**
+ * @brief 初始化OLED显示屏
+ *
+ * 该函数配置OLED显示屏的各种参数，包括显示模式、对比度、多路复用比等。
+ * 初始化完成后，OLED将处于关闭状态，等待后续命令开启显示。
+ */
 void oled_init(void) {
     i2c_init();
 
@@ -83,6 +89,12 @@ void oled_init(void) {
     oled_write_byte(0xAF, OLED_CMD);        // 打开显示
 }
 
+/**
+ * @brief 清除OLED显示屏内容
+ *
+ * 该函数将OLED显示屏的所有内容清除为黑色（0x00）。
+ * 每次调用都会清除整个屏幕，适用于初始化或重置显示。
+ */
 void oled_clear(void) {
     for (unsigned char page = 0; page < 8; page++) {
         // 设置页地址
@@ -114,20 +126,39 @@ void oled_clear(void) {
     }
 }
 
-// 开启OLED显示（添加电荷泵控制）
+/**
+ * @brief 打开OLED显示屏
+ *
+ * 该函数开启OLED显示屏，并启用内部充电泵。
+ * 在调用此函数后，OLED将开始显示内容。
+ */
 void oled_display_on(void) {
     oled_write_byte(0x8D, OLED_CMD);  // SET DCDC命令（供应商命令）
     oled_write_byte(0x14, OLED_CMD);  // DCDC ON（关键添加）
     oled_write_byte(0xAF, OLED_CMD);   // 开启显示
 }
 
-// 关闭OLED显示（添加电荷泵控制）
+/**
+ * @brief 关闭OLED显示屏
+ *
+ * 该函数关闭OLED显示屏，并禁用内部充电泵。
+ * 在调用此函数后，OLED将停止显示内容。
+ */
 void oled_display_off(void) {
     oled_write_byte(0x8D, OLED_CMD);  // SET DCDC命令（供应商命令）
     oled_write_byte(0x10, OLED_CMD);  // DCDC OFF（关键添加）
     oled_write_byte(0xAE, OLED_CMD);   // 关闭显示
 }
 
+/**
+ * @brief 设置OLED显示屏的光标位置
+ *
+ * 该函数设置OLED显示屏的光标位置，以便后续字符或字符串可以在指定位置显示。
+ * 光标位置由列和页地址决定。
+ *
+ * @param col 列地址（0-127）
+ * @param page 页地址（0-7）
+ */
 void oled_set_cursor(unsigned char col, unsigned char page) {
     if (col >= OLED_WIDTH || page >= OLED_HEIGHT/OLED_CHAR_HEIGHT) return;
     oled_write_byte(0xB0 | page, OLED_CMD); // 设置页地址
@@ -136,6 +167,17 @@ void oled_set_cursor(unsigned char col, unsigned char page) {
     oled_write_byte(0x10 | ((col >> 4) & 0x0F), OLED_CMD); // 列地址高4位
 }
 
+/**
+ * @brief 在OLED显示屏上显示一个字符
+ *
+ * 该函数在指定的列和页位置显示一个字符。
+ * 字符使用6x8点阵字体，每个字符占用6列和1页。
+ * 如果列位置超出范围，函数会自动换行到下一页。
+ *
+ * @param col 列地址（0-127）
+ * @param page 页地址（0-7）
+ * @param ch 要显示的字符
+ */
 void oled_display_char(unsigned char col, unsigned char page, char ch) {
     if (page >= OLED_HEIGHT/OLED_CHAR_HEIGHT) return; // 防止越界
 
@@ -153,6 +195,17 @@ void oled_display_char(unsigned char col, unsigned char page, char ch) {
     }
 }
 
+/**
+ * @brief 在OLED显示屏上显示字符串
+ *
+ * 该函数在指定的列和页位置显示一个字符串。
+ * 字符串使用6x8点阵字体，每个字符占用6列和1页。
+ * 如果列位置超出范围，函数会自动换行到下一页。
+ *
+ * @param col 列地址（0-127）
+ * @param page 页地址（0-7）
+ * @param str 要显示的字符串
+ */
 void oled_display_string(unsigned char col, unsigned char page, const char *str) {
     unsigned char i = 0;
     while (str[i] != '\0' && page < OLED_HEIGHT/OLED_CHAR_HEIGHT) {
@@ -168,6 +221,14 @@ void oled_display_string(unsigned char col, unsigned char page, const char *str)
     }
 }
 
+/**
+ * @brief 设置OLED显示屏的显示模式
+ *
+ * 该函数设置OLED显示屏的显示模式，包括正常显示和反色显示。
+ * 正常显示时，0点亮，1熄灭；反色显示时，1点亮，0熄灭。
+ *
+ * @param mode 显示模式，0为正常显示，1为反色显示
+ */
 void oled_display_inverse(unsigned char mode) {
     if (mode==0) {
         oled_write_byte(0xA6, OLED_CMD); // 正常显示
@@ -176,6 +237,14 @@ void oled_display_inverse(unsigned char mode) {
     }
 }
 
+/**
+ * @brief 设置OLED显示屏的扫描方向
+ *
+ * 该函数设置OLED显示屏的扫描方向，包括正向和反向。
+ * 正向时，从上到下扫描；反向时，从下到上扫描。
+ *
+ * @param mode 扫描方向，0为正向，1为反向
+ */
 void oled_display_turn(unsigned char mode) {
     if (mode == 0) {
         oled_write_byte(0xC0, OLED_CMD); // 正扫描方向（从上到下）
