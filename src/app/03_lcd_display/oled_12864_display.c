@@ -31,3 +31,29 @@ void oled_12864_display(void) {
 }
 
 #endif // USE_OLED_12864_154_I2C
+
+
+#if USE_OLED_12864_SPI
+#include "oled_12864_display.h"
+#include "drivers/display/oled_12864_spi.h"
+
+void oled_12864_display(void) {
+    oled_init();
+    oled_clear();
+
+    while (1) {
+        oled_display_string(0, 0, "Hello World!");
+        oled_display_string(1, 1, "Hello World!");
+        oled_display_string(2, 2, "Hello World!");
+        oled_display_string(3, 3, "Hello World!");
+        oled_display_string(4, 4, "Hello World!");
+        oled_display_string(5, 5, "Hello World!");
+        oled_display_string(6, 6, "Hello World!");
+        oled_display_string(7, 7, "Hello World!");
+        delay_ms(1000);
+    }
+
+
+}
+
+#endif // USE_OLED_12864_154_I2C

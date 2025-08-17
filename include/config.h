@@ -23,9 +23,11 @@
 #define USE_UART 0
 #define USE_LCD_1602 0
 #define USE_LCD_1602_I2C 0 // 使用I2C接口的LCD1602
-#define USE_SOFT_I2C 1 // 使用软件I2C
+#define USE_SOFT_I2C 0 // 使用软件I2C
 #define USE_NOKIA_5110_LCD 0
-#define USE_OLED_12864_I2C 1
+#define USE_OLED_12864_I2C 0
+#define USE_SPI 1 // 使用SPI接口
+#define USE_OLED_12864_SPI 1 // 使用SPI接口的OLED 12864
 
 
 // LED效果配置
@@ -170,6 +172,27 @@
 #define OLED_CHAR_WIDTH 6 // 每个字符宽度
 #define OLED_CHAR_HEIGHT 8 // 每个字符高度
 #endif // USE_OLED_12864_I2C
+
+#if USE_SPI
+#define SPI_CLK P20 // SPI 时钟引脚
+#define SPI_CS P21 // SPI 片选引脚
+#define SPI_MOSI P22 // SPI 数据输入引脚
+#define SPI_MISO P23 // SPI 数据输出引脚
+#define INVALID_DEVICE_ID 0xFF
+#endif // USE_SPI
+
+#if USE_OLED_12864_SPI
+#define OLED_DEVICE  0x01
+#define OLED_RES P24 // OLED 复位引脚
+#define OLED_DC P25 // OLED 数据/命令引脚
+#define OLED_WIDTH 128 // OLED 宽度
+#define OLED_HEIGHT 64 // OLED 高度
+#define OLED_PAGE_COUNT 8 // OLED 页数
+#define OLED_CHAR_WIDTH 6 // 每个字符宽度
+#define OLED_CHAR_HEIGHT 8 // 每个字符高度
+#define OLED_CMD 0
+#define OLED_DATA 1
+#endif // USE_OLED_12864_SPI
 
 #endif //CONFIG_H
 
