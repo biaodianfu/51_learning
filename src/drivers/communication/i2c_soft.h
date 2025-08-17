@@ -25,6 +25,27 @@ void i2c_start(void);
 void i2c_stop(void);
 
 /**
+ * @brief 发送I2C应答信号(ACK)
+ *
+ * 该函数用于在I2C通信过程中发送一个应答信号。
+ * 通过将SDA线拉低一个时钟周期来实现ACK信号的发送。
+ *
+ * @param 无
+ * @return 无
+ */
+void i2c_send_ack(void);
+
+/**
+ * @brief 等待I2C从设备的应答信号
+ *
+ * 在I2C通信中，等待从设备发送ACK信号，
+ * 如果从设备未发送ACK，则返回1，否则返回0
+ *
+ * @return unsigned char 从设备的应答信号，0表示应答成功，1表示无应答
+ */
+unsigned char i2c_wait_ack(void);
+
+/**
  * @brief 向I2C总线写入一个字节数据
  *
  * 通过I2C总线发送一个字节数据，从最高位开始逐位发送，

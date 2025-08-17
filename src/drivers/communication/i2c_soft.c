@@ -46,6 +46,51 @@ void i2c_stop(void) {
 }
 
 /**
+ * @brief 发送I2C应答信号(ACK)
+ *
+ * 该函数用于在I2C通信过程中发送一个应答信号。
+ * 通过将SDA线拉低一个时钟周期来实现ACK信号的发送。
+ *
+ * @param 无
+ * @return 无
+ */
+void i2c_send_ack(void) {
+    SDA = 0;
+    delay_us(I2C_DELAY);
+    SCL = 1;
+    delay_us(I2C_DELAY);
+    SCL = 0;
+}
+
+/**
+ * @brief 等待并处理I2C应答信号(ACK)
+ *
+ * 该函数用于在I2C通信过程中等待从设备的应答信号，
+ * 并根据接收到的ACK信号决定是否继续发送ACK。
+ *
+ * @param 无
+ * @return 无
+ */
+// 修改为返回整型值（0=成功，1=失败）
+unsigned char i2c_wait_ack(void) {
+    unsigned char ack = 0;
+    SDA = 1;  // 释放SDA线
+    SCL = 1;  // 拉高SCL
+    delay_us(5);
+
+    // 检查SDA是否为低电平（ACK）
+    if (SDA == 0) {
+        ack = 0;  // ACK成功
+    } else {
+        ack = 1;  // NACK失败
+    }
+
+    SCL = 0;  // 拉低SCL
+    delay_us(5);
+    return ack;
+}
+
+/**
  * @brief 向I2C总线写入一个字节数据
  *
  * 通过SDA线逐位发送数据，高位先发。发送完成后读取从设备的ACK信号。
@@ -53,21 +98,20 @@ void i2c_stop(void) {
  * @param data 要发送的数据字节
  * @return unsigned char 返回ACK状态：1表示收到ACK，0表示未收到ACK
  */
-unsigned char i2c_write_byte(unsigned char data) {
-    for (unsigned char i = 0; i < 8; i++) {
-        SDA = (data & 0x80) ? 1 : 0;
-        delay_us(I2C_DELAY); // 确保数据稳定
-        SCL = 1;             // 拉高SCL线，准备发送数据
-        delay_us(I2C_DELAY); // 等待SCL稳定
-        SCL = 0;             // 拉低SCL线，准备下一个位
-        data <<= 1;          // 左移数据，准备发送下一个位
+
+unsigned char i2c_write_byte(unsigned char dat) {
+    unsigned char i;
+    for (i = 0; i < 8; i++) {
+        SDA = (dat & 0x80) ? 1 : 0; // 发送最高位
+        dat <<= 1;
+        SCL = 1;
+        delay_us(5);
+        SCL = 0;
+        delay_us(5);
     }
-    SDA = 1;                 // 释放SDA线，等待ACK
-    SCL = 1;                 // 拉高SCL线，等待ACK信号
-    delay_us(I2C_DELAY);     // 等待ACK信号
-    unsigned char ack = !SDA; // 读取ACK信号（低电平表示ACK）
-    SCL = 0;                 // 拉低SCL线，结束ACK接收
-    return ack;              // 返回ACK状态
+
+    // 返回ACK状态
+    return i2c_wait_ack();
 }
 
 /**

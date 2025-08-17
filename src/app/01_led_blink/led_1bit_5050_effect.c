@@ -1,6 +1,3 @@
-//
-// Created by qw on 25-7-17.
-//
 #include "config.h"
 
 #if USE_LED_1BIT_5050

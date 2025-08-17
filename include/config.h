@@ -27,6 +27,7 @@
 #define USE_NOKIA_5110_LCD 0
 #define USE_OLED_12864_I2C 1
 
+
 // LED效果配置
 #if USE_LED_8BIT
 #define LED_PORT P2
@@ -165,8 +166,10 @@
 #define OLED_I2C_ADDR 0x78 // OLED I2C 地址
 #define OLED_WIDTH 128 // OLED 宽度
 #define OLED_HEIGHT 64 // OLED 高度
+#define OLED_PAGE_COUNT 8 // OLED 页数
+#define OLED_CHAR_WIDTH 6 // 每个字符宽度
+#define OLED_CHAR_HEIGHT 8 // 每个字符高度
 #endif // USE_OLED_12864_I2C
-
 
 #endif //CONFIG_H
 
