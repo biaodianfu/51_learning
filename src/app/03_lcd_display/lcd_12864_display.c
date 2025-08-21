@@ -1,7 +1,11 @@
 #include "config.h"
+
+#if USE_LCD_12864_SERIAL
+#include "lcd_12864_display.h"
 #include "drivers/display/lcd_12864_serial.h"
-void main() {
-    // 初始化LCD
+
+void lcd_display_show(void) {
+      // 初始化LCD
     lcd_init();
 
     // 清屏
@@ -20,3 +24,5 @@ void main() {
         delay_ms(1000); // 延时1秒
     }
 }
+
+#endif

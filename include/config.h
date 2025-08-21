@@ -26,8 +26,11 @@
 #define USE_SOFT_I2C 0 // 使用软件I2C
 #define USE_NOKIA_5110_LCD 0
 #define USE_OLED_12864_I2C 0
-#define USE_SPI 1 // 使用SPI接口
-#define USE_OLED_12864_SPI 1 // 使用SPI接口的OLED 12864
+#define USE_SPI 0 // 使用SPI接口
+#define USE_OLED_12864_SPI 0 // 使用SPI接口的OLED 12864
+#define USE_LCD_12864_SERIAL 0 // 使用串口的LCD 12864
+#define USE_LCD_12864_PARALLEL 1 // 使用并口的LCD 12864 PSB接高电平
+
 
 
 // LED效果配置
@@ -190,9 +193,25 @@
 #define OLED_PAGE_COUNT 8 // OLED 页数
 #define OLED_CHAR_WIDTH 6 // 每个字符宽度
 #define OLED_CHAR_HEIGHT 8 // 每个字符高度
-#define OLED_CMD 0
-#define OLED_DATA 1
+#define CMD 0
+#define DATA 1
 #endif // USE_OLED_12864_SPI
+
+#if USE_LCD_12864_SERIAL
+#define LCD_SCLK P20 // 时钟信号(E/SLK)
+#define LCD_SID P21 // 串行数据(R/W、SID)
+#define LCD_CS P22 // 片选（RS/CS）
+#define LCD_CMD 0
+#define LCD_DATA 1
+#endif // USE_LCD_12864_SERIAL
+
+#if USE_LCD_12864_PARALLEL
+#define LCD_DATA P2 //DB0~DB7
+#define LCD_RS P31
+#define LCD_RW P32
+#define LCD_E P33
+#define LCD_RST P34
+#endif //USE_LCD_12864_PARALLEL
 
 #endif //CONFIG_H
 
