@@ -1,22 +1,22 @@
 #include "config.h"
-#include "drivers/display/lcd_12864_serial.h"
+#include "drivers/display/lcd_12864_parallel.h"
 void main() {
-    // åˆå§‹åŒ–LCD
+    // ³õÊ¼»¯LCD
     lcd_init();
 
-    // æ¸…å±
+    // ÇåÆÁ
     lcd_clear();
 
     while (1) {
-        // ä¸»å¾ªç¯ï¼Œä¿æŒç¨‹åºè¿è¡Œ
+        // Ö÷Ñ­»·£¬±£³Ö³ÌĞòÔËĞĞ
         lcd_set_position(0, 0);
         lcd_print("Hello, World!");
-        delay_ms(1000); // å»¶æ—¶1ç§’
+        delay_ms(1000); // ÑÓÊ±1Ãë
         lcd_set_position(1, 0);
         lcd_print("51 Learning");
-        delay_ms(1000); // å»¶æ—¶1ç§’
+        delay_ms(1000); // ÑÓÊ±1Ãë
         lcd_set_position(2, 0);
-        lcd_print("ä½ å¥½ï¼Œä¸–ç•Œï¼"); // éœ€è¦å°†ä»£ç æ–‡ä»¶è½¬åŒ–ä¸ºGB2312ç¼–ç 
-        delay_ms(1000); // å»¶æ—¶1ç§’
+        lcd_print("ÄãºÃ£¬ÊÀ½ç£¡"); // ĞèÒª½«´úÂëÎÄ¼ş×ª»¯ÎªGB2312±àÂë
+        delay_ms(1000); // ÑÓÊ±1Ãë
     }
 }

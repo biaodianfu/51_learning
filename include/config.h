@@ -207,10 +207,12 @@
 
 #if USE_LCD_12864_PARALLEL
 #define LCD_DATA P2 //DB0~DB7
-#define LCD_RS P31
-#define LCD_RW P32
-#define LCD_E P33
-#define LCD_RST P34
+#define LCD_RS P10
+#define LCD_RW P11
+#define LCD_E P12
+#define LCD_RST P13
+#define CMD  0
+#define DATA 1
 #endif //USE_LCD_12864_PARALLEL
 
 #endif //CONFIG_H
